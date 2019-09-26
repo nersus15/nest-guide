@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User, UserRole } from './user.model';
 import * as uuid from 'uuid';
+import { CreateUserDTO } from './dto/createUser.dto';
 
 @Injectable()
 export class UsersService {
@@ -9,7 +10,8 @@ export class UsersService {
     getAllUsers(): User[] {
         return this.users;
     }
-    createUser(username: String, password: String): User {
+    createUser(createUserDTO: CreateUserDTO): User {
+        const { username, password } = createUserDTO;
         const user: User = {
             id: uuid(),
             username,
