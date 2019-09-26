@@ -10,6 +10,11 @@ export class UsersService {
     getAllUsers(): User[] {
         return this.users;
     }
+
+    getUserById(id: String): User {
+        return this.users.find(user => user.id === id);
+    }
+
     createUser(createUserDTO: CreateUserDTO): User {
         const { username, password } = createUserDTO;
         const user: User = {
@@ -20,5 +25,9 @@ export class UsersService {
         };
         this.users.push(user);
         return user;
+    }
+
+    DeleteUserByid(id: String): void {
+        this.users = this.users.filter(user => user.id !== id);
     }
 }
