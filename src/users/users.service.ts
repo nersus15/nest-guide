@@ -27,7 +27,23 @@ export class UsersService {
         return user;
     }
 
-    DeleteUserByid(id: String): void {
+    deleteUserByid(id: String): void {
         this.users = this.users.filter(user => user.id !== id);
+    }
+
+    updateUserById(id: String, role: String): User {
+        const user = this.users.find(u => u.id === id);
+        switch (role) {
+            case UserRole.ADMIN:
+                user.role = UserRole.ADMIN;
+                break;
+            case UserRole.DRIVER:
+                user.role = UserRole.DRIVER;
+                break;
+            case UserRole.PELANGGAN:
+                user.role = UserRole.PELANGGAN;
+                break;
+        }
+        return user;
     }
 }
