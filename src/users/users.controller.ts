@@ -1,14 +1,20 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Patch, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './user.model';
 import { CreateUserDTO } from './dto/createUser.dto';
+import { UserFilterDTO } from './dto/userFilter.dto';
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Get()
-    getAllUsers(): User[] {
-        return this.usersService.getAllUsers();
+    getUsers(@Query() filterDTO: UserFilterDTO): User[] {
+        if (Object.keys(filterDTO).length) {
+            return this.usersService.getUserWithFilter(filterDTO);
+        } else {
+            return this.usersService.getAllUsers();
+        }
+
     }
 
     @Get('/:id')
