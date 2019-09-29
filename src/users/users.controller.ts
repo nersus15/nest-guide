@@ -9,7 +9,7 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Get()
-    getUsers(@Query() filterDTO: UserFilterDTO): User[] {
+    getUsers(@Query(ValidationPipe) filterDTO: UserFilterDTO): User[] {
         if (Object.keys(filterDTO).length) {
             return this.usersService.getUserWithFilter(filterDTO);
         } else {
