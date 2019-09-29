@@ -3,6 +3,7 @@ import { UsersService } from './users.service';
 import { User } from './user.model';
 import { CreateUserDTO } from './dto/createUser.dto';
 import { UserFilterDTO } from './dto/userFilter.dto';
+import { UserRoleValidationPipe } from './pipes/user-role-validation.pipe';
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
@@ -34,7 +35,7 @@ export class UsersController {
     }
 
     @Patch('/:id')
-    updateUserById(@Param('id') id: String, @Body('role') role: String) {
+    updateUserById(@Param('id') id: String, @Body('role', UserRoleValidationPipe) role: String) {
         return this.usersService.updateUserById(id, role);
     }
 
