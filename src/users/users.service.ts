@@ -44,10 +44,12 @@ export class UsersService {
         return this.userRepository.createUser(createUserDTO);
     }
 
-    // deleteUserByid(id: String): void {
-    //     const userFound = this.getUserById(id);
-    //     this.users = this.users.filter(user => user.id !== userFound.id);
-    // }
+    async deleteUserByid(id: string): Promise<void> {
+        const result = await this.userRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException(`User With ID "${id}" Not Found`);
+        }
+    }
 
     // updateUserById(id: String, role: String): User {
     //     const user = this.getUserById(id);

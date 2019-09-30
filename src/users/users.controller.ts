@@ -29,10 +29,10 @@ export class UsersController {
         return this.usersService.createUser(createUserDTO);
     }
 
-    // @Delete('/:id')
-    // deleteUserById(@Param('id') id: String): void {
-    //     this.usersService.deleteUserByid(id);
-    // }
+    @Delete('/:id')
+    deleteUserById(@Param('id') id: string): Promise<void> {
+        return this.usersService.deleteUserByid(id);
+    }
 
     // @Patch('/:id')
     // updateUserById(@Param('id') id: String, @Body('role', UserRoleValidationPipe) role: String) {
