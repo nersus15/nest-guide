@@ -23,11 +23,11 @@ export class UsersController {
         return this.usersService.getUserById(id);
     }
 
-    // @Post()
-    // @UsePipes(ValidationPipe)
-    // createUser(@Body() createUserDTO: CreateUserDTO): User {
-    //     return this.usersService.createUser(createUserDTO);
-    // }
+    @Post()
+    @UsePipes(ValidationPipe)
+    createUser(@Body() createUserDTO: CreateUserDTO): Promise<User> {
+        return this.usersService.createUser(createUserDTO);
+    }
 
     // @Delete('/:id')
     // deleteUserById(@Param('id') id: String): void {

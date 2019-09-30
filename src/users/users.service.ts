@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import * as uuid from 'uuid';
 import { CreateUserDTO } from './dto/createUser.dto';
 import { UserFilterDTO } from './dto/userFilter.dto';
 import { UserRepository } from './user.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
+import { UserRole } from './user-role.enum';
 
 @Injectable()
 export class UsersService {
@@ -40,17 +40,9 @@ export class UsersService {
         return user;
     }
 
-    // createUser(createUserDTO: CreateUserDTO): User {
-    //     const { username, password } = createUserDTO;
-    //     const user: User = {
-    //         id: uuid(),
-    //         username,
-    //         password,
-    //         role: UserRole.DRIVER
-    //     };
-    //     this.users.push(user);
-    //     return user;
-    // }
+    async createUser(createUserDTO: CreateUserDTO): Promise<User> {
+        return this.userRepository.createUser(createUserDTO);
+    }
 
     // deleteUserByid(id: String): void {
     //     const userFound = this.getUserById(id);
