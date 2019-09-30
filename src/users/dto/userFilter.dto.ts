@@ -1,4 +1,4 @@
-import { UserRole } from "../user.model";
+import { UserRole } from "../user-role.enum";
 import { IsOptional, IsIn, IsNotEmpty } from "class-validator";
 
 export class UserFilterDTO {

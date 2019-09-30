@@ -1,5 +1,5 @@
 import { PipeTransform, BadRequestException } from "@nestjs/common";
-import { UserRole } from "../user.model";
+import { UserRole } from "../user-role.enum";
 
 export class UserRoleValidationPipe implements PipeTransform {
     readonly allowedRole = [
@@ -11,7 +11,7 @@ export class UserRoleValidationPipe implements PipeTransform {
         value = value.toUpperCase();
         if (!this.isValidRole(value)) {
             throw new BadRequestException(`${value} is an Invalid Role`);
-        }
+        } 
 
         return value;
     }
