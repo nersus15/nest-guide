@@ -4,19 +4,20 @@ import { CreateUserDTO } from './dto/createUser.dto';
 import { UserFilterDTO } from './dto/userFilter.dto';
 import { UserRoleValidationPipe } from './pipes/user-role-validation.pipe';
 import { User } from './user.entity';
+import { UserRole } from './user-role.enum';
 @Controller('users')
 export class UsersController {
     constructor(private usersService: UsersService) { }
 
-    // @Get()
-    // getUsers(@Query(ValidationPipe) filterDTO: UserFilterDTO): User[] {
-    //     if (Object.keys(filterDTO).length) {
-    //         return this.usersService.getUserWithFilter(filterDTO);
-    //     } else {
-    //         return this.usersService.getAllUsers();
-    //     }
+    @Get()
+    getUsers(@Query(ValidationPipe) filterDTO: UserFilterDTO): Promise<User[]> {
+        if (Object.keys(filterDTO).length) {
+            return this.usersService.getUserWithFilter(filterDTO);
+        } else {
+            return this.usersService.getAllUsers();
+        }
 
-    // }
+    }
 
     @Get('/:id')
     getUserById(@Param('id') id: string): Promise<User> {
@@ -31,12 +32,12 @@ export class UsersController {
 
     @Delete('/:id')
     deleteUserById(@Param('id') id: string): Promise<void> {
-        return this.usersService.deleteUserByid(id);
+        return this.usersService.deleteUser(id);
     }
 
-    // @Patch('/:id')
-    // updateUserById(@Param('id') id: String, @Body('role', UserRoleValidationPipe) role: String) {
-    //     return this.usersService.updateUserById(id, role);
-    // }
+    @Patch('/:id')
+    updateUserRole(@Param('id') id: string, @Body('role', UserRoleValidationPipe) role: UserRole) {
+        return this.usersService.updateUserRole(id, role);
+    }
 
 }

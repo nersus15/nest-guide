@@ -13,25 +13,26 @@ export class UsersService {
         private userRepository: UserRepository
     ) { }
 
-    // getAllUsers(): User[] {
-    //     return this.users;
-    // }
-    // getUserWithFilter(filterDTO: UserFilterDTO): User[] {
-    //     const { role, keyword } = filterDTO;
-    //     let users = this.getAllUsers();
+    async getAllUsers(): Promise<User[]> {
+        const users = await this.userRepository.find();
+        return users;
+    }
+    async getUserWithFilter(filterDTO: UserFilterDTO): Promise<User[]> {
+        const { role, keyword } = filterDTO;
+        let users = await this.getAllUsers();
 
-    //     if (role) {
-    //         users = users.filter(user => user.role === role);
-    //     }
-    //     if (keyword) {
-    //         users = users.filter(user =>
-    //             user.username.includes(keyword) ||
-    //             user.password.includes(keyword)
-    //         );
-    //     }
+        if (role) {
+            users = await users.filter(user => user.role === role);
+        }
+        if (keyword) {
+            users = await users.filter(user =>
+                user.username.includes(keyword) ||
+                user.password.includes(keyword)
+            );
+        }
 
-    //     return users;
-    // }
+        return users;
+    }
     async getUserById(id: string): Promise<User> {
         const user = await this.userRepository.findOne(id);
         if (!user) {
@@ -44,26 +45,17 @@ export class UsersService {
         return this.userRepository.createUser(createUserDTO);
     }
 
-    async deleteUserByid(id: string): Promise<void> {
+    async deleteUser(id: string): Promise<void> {
         const result = await this.userRepository.delete(id);
         if (result.affected === 0) {
             throw new NotFoundException(`User With ID "${id}" Not Found`);
         }
     }
 
-    // updateUserById(id: String, role: String): User {
-    //     const user = this.getUserById(id);
-    //     switch (role) {
-    //         case UserRole.ADMIN:
-    //             user.role = UserRole.ADMIN;
-    //             break;
-    //         case UserRole.DRIVER:
-    //             user.role = UserRole.DRIVER;
-    //             break;
-    //         case UserRole.PELANGGAN:
-    //             user.role = UserRole.PELANGGAN;
-    //             break;
-    //     }
-    //     return user;
-    // }
+    async updateUserRole(id: string, role: UserRole): Promise<User> {
+        const user = await this.getUserById(id);
+        user.role = role;
+        await user.save();
+        return user;
+    }
 }
