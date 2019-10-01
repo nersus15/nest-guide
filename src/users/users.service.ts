@@ -13,25 +13,8 @@ export class UsersService {
         private userRepository: UserRepository
     ) { }
 
-    async getAllUsers(): Promise<User[]> {
-        const users = await this.userRepository.find();
-        return users;
-    }
-    async getUserWithFilter(filterDTO: UserFilterDTO): Promise<User[]> {
-        const { role, keyword } = filterDTO;
-        let users = await this.getAllUsers();
-
-        if (role) {
-            users = await users.filter(user => user.role === role);
-        }
-        if (keyword) {
-            users = await users.filter(user =>
-                user.username.includes(keyword) ||
-                user.password.includes(keyword)
-            );
-        }
-
-        return users;
+    async getUsers(filterDTO: UserFilterDTO): Promise<User[]> {
+        return this.userRepository.getUsers(filterDTO);
     }
     async getUserById(id: string): Promise<User> {
         const user = await this.userRepository.findOne(id);

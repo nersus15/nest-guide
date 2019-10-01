@@ -10,13 +10,8 @@ export class UsersController {
     constructor(private usersService: UsersService) { }
 
     @Get()
-    getUsers(@Query(ValidationPipe) filterDTO: UserFilterDTO): Promise<User[]> {
-        if (Object.keys(filterDTO).length) {
-            return this.usersService.getUserWithFilter(filterDTO);
-        } else {
-            return this.usersService.getAllUsers();
-        }
-
+    getUsers(@Query(ValidationPipe) filterDTO: UserFilterDTO) {
+        return this.usersService.getUsers(filterDTO);
     }
 
     @Get('/:id')
